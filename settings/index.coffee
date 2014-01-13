@@ -12,5 +12,6 @@ settings.defaults
     'PORT': 3000
     'QUERY_URL': 'http://services.arcgis.com/tNJpAOha4mODLkXz/arcgis/rest/services/RefuseHI5/FeatureServer/0/query?where=1%3D1&objectIds=&geometry=&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4001&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&f=pjson&token='
     "MONGO_URL": "mongodb://localhost:27017/hi5"
+    "DATA_URL": "https://raw2.github.com/keokilee/hi5-redemption/frontend-only/locations.json"
 
 module.exports = settings

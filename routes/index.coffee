@@ -10,6 +10,7 @@ exports.index = (req, res) ->
         maps_key: "key=#{settings.get('API_KEY')}"
         fb_app_id: settings.get 'FB_APP_ID'
         analytics_key: settings.get 'ANALYTICS_KEY'
+        data_url: settings.get 'DATA_URL'
     }
 
 if not process.env.NODE_ENV? or process.env.NODE_ENV is "development"

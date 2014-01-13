@@ -1,7 +1,4 @@
 settings = require './settings'
-# Nodefly monitoring.
-if settings.get('NODEFLY_KEY')?
-  require('nodefly').profile settings.get('NODEFLY_KEY'), ["hi5-redemption", "hi5-redemption"]
 
 # Module dependencies.
 express = require 'express'
@@ -32,8 +29,6 @@ if app.get('env') != "production"
   app.get '/tests', routes.tests
 
 app.get '/', routes.index
-app.get '/locations', routes.api.locations
-app.get '/locations/:id', routes.api.location
 
 http.createServer(app).listen app.get('port'), ->
   console.log "Express server listening on port " + app.get('port')
