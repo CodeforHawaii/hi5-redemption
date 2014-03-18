@@ -1,5 +1,5 @@
 var connect = require('connect');
-var dir = ('./public');
+var dir = ('./dist');
 
 var createServer = function(port) {
   connect().use(connect['static'](dir)).listen(port);

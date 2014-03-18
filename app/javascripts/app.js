@@ -1,7 +1,10 @@
 /** @jsx React.DOM */
 var React = require('react');
+var $ = require('jquery');
 var Backbone = require('backbone');
 var Q = require('q');
+
+Backbone.$ = $;
 
 var LocationButton = React.createClass({
   onClick: function() {
@@ -14,19 +17,53 @@ var LocationButton = React.createClass({
       </button>
     );
   }
-})
+});
 
 var PlacesSearch = React.createClass({
   render: function() {
-    return(
-      <input id="placesSearch" className="form-control" placeholder="Type a location" />
+    return (
+      <input id="places-search" className="form-control" placeholder="Type a location" />
     );
+  },
+  componentDidMount: function() {
+    // Called when component is rendered.
+    this.initSearchBox();
+  },
+  initSearchBox: function() {
+    // Helper function for setting up the search box.
+    var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(20.3111981, -158.8405013),
+      new google.maps.LatLng(22.2711981, -156.8005013)
+    );
+
+    var autocomplete = new google.maps.places.Autocomplete(this.getDOMNode(), {
+      bounds: defaultBounds,
+      radius: 200,
+      componentRestrictions: {country: 'us'}
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      var place = autocomplete.getPlace();
+      console.log(place);
+    });
   }
 });
 
-React.renderComponent(
-  <div className="input-group">
-    <span className="input-group-btn"><LocationButton /></span>
-    <PlacesSearch />
-  </div>, document.getElementById('search-form')
-);
+// Backbone Views
+var SearchView = Backbone.View.extend({
+  initialize: function() {
+    this.render();
+  },
+  render: function() {
+    React.renderComponent(
+      <div className="input-group">
+        <span className="input-group-btn"><LocationButton /></span>
+        <PlacesSearch />
+      </div>, this.el
+    );
+
+    return this;
+  }
+});
+
+var view = new SearchView({el: $('#search-form')});

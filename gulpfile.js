@@ -49,9 +49,7 @@ gulp.task('templates', function() {
       .pipe(livereload());
 });
 
-gulp.task('default', function() {
-  gulp.run('dev-server', 'js', 'less', 'bower', 'templates');
-
+gulp.task('watch', function() {
   gulp.watch('app/stylesheets/**', function() {
     gulp.run('less');
   });
@@ -64,3 +62,5 @@ gulp.task('default', function() {
     gulp.run('templates');
   });
 });
+
+gulp.task('default', ['dev-server', 'js', 'less', 'bower', 'watch', 'templates']);
