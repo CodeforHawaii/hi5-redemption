@@ -42,9 +42,10 @@ var PlacesSearch = React.createClass({
       componentRestrictions: {country: 'us'}
     });
 
+    var callback = this.props.placeChanged;
+
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      var place = autocomplete.getPlace();
-      console.log(place);
+      callback(autocomplete.getPlace());
     });
   }
 });
@@ -54,11 +55,14 @@ var SearchView = Backbone.View.extend({
   initialize: function() {
     this.render();
   },
+  placeChanged: function(place) {
+    console.log(place);
+  },
   render: function() {
     React.renderComponent(
       <div className="input-group">
         <span className="input-group-btn"><LocationButton /></span>
-        <PlacesSearch />
+        <PlacesSearch placeChanged={this.placeChanged.bind(this)}/>
       </div>, this.el
     );
 
