@@ -4,6 +4,7 @@ var less = require('gulp-less');
 var flatten = require('gulp-flatten');
 var jade = require('gulp-jade');
 var livereload = require('gulp-livereload');
+var browserify = require('gulp-browserify');
 var path = require('path');
 var server = require('./server.js')
 
@@ -11,52 +12,51 @@ gulp.task('dev-server', function() {
   server.createServer(3000);
 });
 
-gulp.task('less', function() {
-  gulp.src('app/stylesheets/*.less')
-      .pipe(less({
-          paths: [
-              'bower_components/bootstrap/less'
-          ]
-      }))
-      .pipe(gulp.dest('public/css'))
-      .pipe(livereload());
-
-  gulp.src('bower_components/**/*.min.css')
+gulp.task('bower', function() {
+  gulp.src('app/bower_components/**/*.min.css')
       .pipe(flatten())
-      .pipe(gulp.dest('public/css'));
+      .pipe(gulp.dest('dist/css'));
 
-  gulp.src('bower_components/bootstrap/dist/fonts/*')
-      .pipe(gulp.dest('public/fonts'));
+  gulp.src('app/bower_components/bootstrap/dist/fonts/*')
+      .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('less', function() {
+  return gulp.src('app/stylesheets/*.less')
+        .pipe(less({
+            paths: [
+                'app/bower_components/bootstrap/less'
+            ]
+        }))
+        .pipe(gulp.dest('dist/css'))
+        .pipe(livereload());
 });
 
 gulp.task('js', function() {
-  var externalFiles = [];
-
-  gulp.src('app/js/**')
-      .pipe(gulp.dest('public/js'))
-      .pipe(livereload());
-
-  gulp.src(externalFiles)
-      .pipe(flatten())
-      .pipe(gulp.dest('public/js'))
+  return gulp.src('app/javascripts/app.js')
+      .pipe(browserify({
+        transform: ['reactify'],
+        debug: true
+      }))
+      .pipe(gulp.dest('dist/js'))
       .pipe(livereload());
 });
 
 gulp.task('templates', function() {
-  gulp.src('app/views/**/*.jade')
+  gulp.src('app/views/index.jade')
       .pipe(jade())
-      .pipe(gulp.dest('public/'))
+      .pipe(gulp.dest('dist/'))
       .pipe(livereload());
 });
 
-gulp.task('development', function() {
-  gulp.run('dev-server', 'less', 'js', 'templates');
+gulp.task('default', function() {
+  gulp.run('dev-server', 'js', 'less', 'bower', 'templates');
 
   gulp.watch('app/stylesheets/**', function() {
     gulp.run('less');
   });
 
-  gulp.watch('app/js/**', function() {
+  gulp.watch('app/javascripts/**', function() {
     gulp.run('js');
   });
 

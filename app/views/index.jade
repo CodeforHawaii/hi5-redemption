@@ -1,0 +1,23 @@
+doctype html
+html(ng-app="redemptionApp")
+  head
+    title HI-5 Redemption Centers
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(href="css/bootstrap.min.css", rel="stylesheet")
+    link(href="css/bootstrap-theme.min.css", rel="stylesheet")
+    link(href="css/app.css", rel="stylesheet")
+
+  body
+    div(class="navbar navbar-inverse navbar-fixed-top", role="navigation")
+        div.container
+            div.navbar-header
+                span.navbar-brand Redeem HI5
+
+    div(class="container main")
+        include partials/search
+
+        div.welcome
+            h1 HI-5 Redemption Centers
+            p Please use the search field or touch the button to find nearby redemption centers.
+
+    include partials/scripts
