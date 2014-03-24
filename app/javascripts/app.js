@@ -26,11 +26,9 @@ var PlacesSearch = React.createClass({
     );
   },
   componentDidMount: function() {
-    // Called when component is rendered.
-    this.initSearchBox();
-  },
-  initSearchBox: function() {
-    // Helper function for setting up the search box.
+    var locationCallback = this.props.placeChanged;
+
+    // Set up the search box
     var defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(20.3111981, -158.8405013),
       new google.maps.LatLng(22.2711981, -156.8005013)
@@ -42,10 +40,8 @@ var PlacesSearch = React.createClass({
       componentRestrictions: {country: 'us'}
     });
 
-    var callback = this.props.placeChanged;
-
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      callback(autocomplete.getPlace());
+      locationCallback(autocomplete.getPlace());
     });
   }
 });
@@ -62,7 +58,7 @@ var SearchView = Backbone.View.extend({
     React.renderComponent(
       <div className="input-group">
         <span className="input-group-btn"><LocationButton /></span>
-        <PlacesSearch placeChanged={this.placeChanged.bind(this)}/>
+        <PlacesSearch placeChanged={this.placeChanged.bind(this)} />
       </div>, this.el
     );
 
