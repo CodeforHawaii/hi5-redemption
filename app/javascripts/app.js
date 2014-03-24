@@ -2,7 +2,6 @@
 var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
-var Q = require('q');
 var SearchForm = require('./search_form');
 
 Backbone.$ = $;
@@ -13,8 +12,9 @@ var SearchView = (function() {
     initialize: function() {
       this.render();
     },
-    placeChanged: function(place) {
-      console.log(place);
+    placeChanged: function(lat, lng) {
+      console.log("Lat: " + lat);
+      console.log("Lng: " + lng);
     },
     render: function() {
       React.renderComponent(
