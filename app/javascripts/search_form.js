@@ -22,9 +22,7 @@ var getCoordinates = function(place) {
     lng: place.geometry.location.lng()
   };
 }
-
 var PlacesSearch = React.createClass({
-  value: "",
   selectFirstResult: function(callback) {
     // Need to use jQuery to get the DOM node. Sadly, it's out of scope.
     var result = $('.pac-container .pac-item:first').text();
@@ -63,7 +61,7 @@ var PlacesSearch = React.createClass({
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
-      
+
       if (typeof place.geometry === "undefined") {
         this.selectFirstResult(this.props.placeChanged);
       }

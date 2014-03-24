@@ -9,6 +9,7 @@ var path = require('path');
 var server = require('./server.js')
 
 gulp.task('dev-server', function() {
+  gulp.src('locations.json').pipe(gulp.dest('dist'));
   server.createServer(3000);
 });
 
