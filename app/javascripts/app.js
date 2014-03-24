@@ -1,17 +1,10 @@
 var $ = require('jquery');
 var views = require('./views');
-var models = require('./models');
 
 var SearchView = views.SearchView;
-var LocationCollection = models.LocationCollection;
-var Locations = new LocationCollection();
+var ResultsView = views.ResultsView;
 
 $(function() {
-  var view = new SearchView({el: $('#search')});
-
-  Locations.fetch({
-    success: function(collection) {
-      console.log(collection);
-    }
-  });
+  var searchView = new SearchView({el: $('#search')});
+  var resultsView = new ResultsView({el: $('#results')});
 });

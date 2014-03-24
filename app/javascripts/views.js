@@ -3,13 +3,21 @@ var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
 var SearchForm = require('./components/search_form');
+var models = require('./models');
 
 Backbone.$ = $;
 
+var LocationCollection = models.LocationCollection;
+var Locations = new LocationCollection();
+
 // Backbone Views
-var ResultView = Backbone.View.extend({
+var ResultsView = Backbone.View.extend({
   initialize: function() {
-    this.render();
+    Locations.fetch({
+      success: function(collection) {
+        console.log(collection);
+      }
+    });
   }
 });
 
@@ -31,6 +39,6 @@ var SearchView = Backbone.View.extend({
 });
 
 module.exports = {
-  ResultView: ResultView,
+  ResultsView: ResultsView,
   SearchView: SearchView
 }
