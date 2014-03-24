@@ -22,7 +22,7 @@ gulp.task('bower', function() {
 });
 
 gulp.task('less', function() {
-  return gulp.src('app/stylesheets/*.less')
+  gulp.src('app/stylesheets/*.less')
         .pipe(less({
             paths: [
                 'app/bower_components/bootstrap/less'
@@ -33,7 +33,7 @@ gulp.task('less', function() {
 });
 
 gulp.task('js', function() {
-  return gulp.src('app/javascripts/app.js')
+  gulp.src('app/javascripts/app.js')
       .pipe(browserify({
         transform: ['reactify'],
         debug: true
@@ -50,17 +50,11 @@ gulp.task('templates', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('app/stylesheets/**', function() {
-    gulp.run('less');
-  });
+  gulp.watch('app/stylesheets/**', ['less']);
 
-  gulp.watch('app/javascripts/**', function() {
-    gulp.run('js');
-  });
+  gulp.watch('app/javascripts/**', ['js']);
 
-  gulp.watch('app/views/**', function() {
-    gulp.run('templates');
-  });
+  gulp.watch('app/views/**', ['templates']);
 });
 
 gulp.task('default', ['dev-server', 'js', 'less', 'bower', 'watch', 'templates']);
