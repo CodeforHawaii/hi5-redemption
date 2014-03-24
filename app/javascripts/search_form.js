@@ -49,8 +49,6 @@ var PlacesSearch = React.createClass({
     );
   },
   componentDidMount: function() {
-    var locationCallback = this.props.placeChanged;
-
     // Set up the search box
     var defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(20.3111981, -158.8405013),
@@ -65,12 +63,13 @@ var PlacesSearch = React.createClass({
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
+      
       if (typeof place.geometry === "undefined") {
-        this.selectFirstResult(locationCallback);
+        this.selectFirstResult(this.props.placeChanged);
       }
       else {
         var coordinates = getCoordinates(place);
-        locationCallback(coordinates.lat, coordinates.lng);
+        this.props.placeChanged(coordinates.lat, coordinates.lng);
       }
     }.bind(this));
   }
