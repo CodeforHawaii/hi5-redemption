@@ -26,13 +26,13 @@ var SearchView = Backbone.View.extend({
   initialize: function() {
     this.render();
   },
-  placeChanged: function(lat, lng) {
+  handleLocation: function(lat, lng) {
     console.log("Lat: " + lat);
     console.log("Lng: " + lng);
   },
   render: function() {
     React.renderComponent(
-      <SearchForm placeChanged={this.placeChanged.bind(this)} />, this.el
+      <SearchForm handleLocation={this.handleLocation.bind(this)} />, this.el
     );
 
     return this;

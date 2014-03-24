@@ -4,7 +4,9 @@ var $ = require('jquery');
 
 var LocationButton = React.createClass({
   onClick: function() {
-    alert('Clicked location button');
+    navigator.geolocation.getCurrentPosition(function(position) {
+      this.props.handleLocation(position.coords.latitude, position.coords.longitude);
+    }.bind(this));
   },
   render: function() {
     return (
@@ -16,14 +18,15 @@ var LocationButton = React.createClass({
 });
 
 // Utility function for getting place coordinates
-var getCoordinates = function(place) {
+var getPlaceCoordinates = function(place) {
   return {
     lat: place.geometry.location.lat(),
     lng: place.geometry.location.lng()
   };
-}
+};
+
 var PlacesSearch = React.createClass({
-  selectFirstResult: function(callback) {
+  selectFirstResult: function() {
     // Need to use jQuery to get the DOM node. Sadly, it's out of scope.
     var result = $('.pac-container .pac-item:first').text();
     var geocoder = new google.maps.Geocoder();
@@ -36,10 +39,10 @@ var PlacesSearch = React.createClass({
     // Set the input value to the first location
     geocoder.geocode({"address": result}, function (res, status) {
       if (status === google.maps.GeocoderStatus.OK) {
-        var coordinates = getCoordinates(res[0]);
-        callback(coordinates.lat, coordinates.lng);
+        var coordinates = getPlaceCoordinates(res[0]);
+        this.props.handleLocation(coordinates.lat, coordinates.lng);
       }
-    });
+    }.bind(this));
   },
   render: function() {
     return (
@@ -63,11 +66,11 @@ var PlacesSearch = React.createClass({
       var place = autocomplete.getPlace();
 
       if (typeof place.geometry === "undefined") {
-        this.selectFirstResult(this.props.placeChanged);
+        this.selectFirstResult();
       }
       else {
-        var coordinates = getCoordinates(place);
-        this.props.placeChanged(coordinates.lat, coordinates.lng);
+        var coordinates = getPlaceCoordinates(place);
+        this.props.handleLocation(coordinates.lat, coordinates.lng);
       }
     }.bind(this));
   }
@@ -82,8 +85,10 @@ var SearchForm = React.createClass({
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="input-group">
-          <span className="input-group-btn"><LocationButton /></span>
-          <PlacesSearch placeChanged={this.props.placeChanged} />
+          <span className="input-group-btn">
+            <LocationButton handleLocation={this.props.handleLocation}/>
+          </span>
+          <PlacesSearch handleLocation={this.props.handleLocation} />
         </div>
       </form>
     );
