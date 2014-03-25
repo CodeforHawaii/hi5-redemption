@@ -6,7 +6,7 @@ var parseTime = function(time) {
   var minutes = time - (hour * 100);
 
   if (minutes < 10) {
-    mintues = "0" + minutes;
+    minutes = "0" + minutes;
   }
   if (hour === 0) {
     hour = 12;
@@ -14,7 +14,7 @@ var parseTime = function(time) {
   else if (hour === 12) {
     ampm = "PM";
   }
-  else {
+  else if (hour > 12) {
     hour -= 12;
     ampm = "PM"
   }
