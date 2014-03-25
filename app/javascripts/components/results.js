@@ -4,7 +4,9 @@ var React = require('react');
 var ResultRow = React.createClass({
   render: function() {
     return (
-      <li>{this.props.location.fullName()}</li>
+      <li>
+        <h3>{this.props.location.fullName()}</h3>
+      </li>
     );
   }
 });
@@ -17,7 +19,10 @@ var ResultList = React.createClass({
     });
 
     return (
-      <ul>{rows}</ul>
+      <div>
+      <h2>Results near "{this.props.address}"</h2>
+      <ul className="list-unstyled">{rows}</ul>
+      </div>
     );
   }
 });

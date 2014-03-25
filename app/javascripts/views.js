@@ -20,15 +20,16 @@ var ResultsView = Backbone.View.extend({
       }.bind(this)
     });
   },
-  setCoordinates: function(lat, lng) {
-    this.latitude = lat;
-    this.longitude = lng;
+  setResult: function(result) {
+    this.location = result.name;
+    this.latitude = result.latitude;
+    this.longitude = result.longitude;
 
     this.render();
   },
   render: function() {
     React.renderComponent(
-      <ResultList locations={this.collection} />, this.el
+      <ResultList address={this.location} locations={this.collection} />, this.el
     );
 
     return this;
@@ -50,8 +51,8 @@ var SearchView = Backbone.View.extend({
 });
 
 var AppController = Backbone.View.extend({
-  handleLocation: function(lat, lng) {
-    this.resultsView.setCoordinates(lat, lng);
+  handleLocation: function(result) {
+    this.resultsView.setResult(result);
   },
   initialize: function() {
     this.searchView = new SearchView({el: $('#search'), parent: this});

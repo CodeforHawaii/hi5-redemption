@@ -5,7 +5,11 @@ var $ = require('jquery');
 var LocationButton = React.createClass({
   onClick: function() {
     navigator.geolocation.getCurrentPosition(function(position) {
-      this.props.handleLocation(position.coords.latitude, position.coords.longitude);
+      this.props.handleLocation({
+        name: "Current Location",
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
     }.bind(this));
   },
   render: function() {
@@ -34,13 +38,19 @@ var PlacesSearch = React.createClass({
 
     // Unfocus node and set value.
     $node.blur();
-    $node.prop('value', result);
+
 
     // Set the input value to the first location
     geocoder.geocode({"address": result}, function (res, status) {
       if (status === google.maps.GeocoderStatus.OK) {
+        $node.prop('value', res[0].formatted_address);
+
         var coordinates = getPlaceCoordinates(res[0]);
-        this.props.handleLocation(coordinates.lat, coordinates.lng);
+        this.props.handleLocation({
+          name: res[0].formatted_address,
+          latitude: coordinates.lat,
+          longitude: coordinates.lng
+        });
       }
     }.bind(this));
   },
@@ -70,7 +80,11 @@ var PlacesSearch = React.createClass({
       }
       else {
         var coordinates = getPlaceCoordinates(place);
-        this.props.handleLocation(coordinates.lat, coordinates.lng);
+        this.props.handleLocation({
+          name: place.formatted_address,
+          latitude: coordinates.lat,
+          longitude: coordinates.lng
+        });
       }
     }.bind(this));
   }
