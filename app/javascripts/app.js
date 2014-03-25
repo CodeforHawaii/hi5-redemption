@@ -1,10 +1,6 @@
 var $ = require('jquery');
-var views = require('./views');
-
-var SearchView = views.SearchView;
-var ResultsView = views.ResultsView;
+var AppController = require('./views').AppController;
 
 $(function() {
-  var searchView = new SearchView({el: $('#search')});
-  var resultsView = new ResultsView({el: $('#results')});
+  var controller = new AppController({el: $('body')});
 });
