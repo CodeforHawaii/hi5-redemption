@@ -107,12 +107,23 @@ var Location = Backbone.Model.extend({
     return "http://maps.google.com/maps?daddr=" +
       this.attributes.geometry[1] + "," +
       this.attributes.geometry[0] + "&hl=en";
+  },
+  getDistanceFrom: function(coords) {
+    return distance(coords, this.geometry);
   }
 });
 
 var LocationCollection = Backbone.Collection.extend({
   model: Location,
-  url: "/locations.json"
+  url: "/locations.json",
+  sortNear: function(current) {
+    // Create an anonymous function to sort near.
+    this.comparator = function(location) {
+      return location.getDistanceFrom(current);
+    }
+
+    return this.sort(comparator);
+  }
 });
 
 module.exports = {
