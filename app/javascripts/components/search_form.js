@@ -39,7 +39,6 @@ var PlacesSearch = React.createClass({
     // Unfocus node and set value.
     $node.blur();
 
-
     // Set the input value to the first location
     geocoder.geocode({"address": result}, function (res, status) {
       if (status === google.maps.GeocoderStatus.OK) {

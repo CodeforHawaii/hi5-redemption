@@ -118,7 +118,7 @@ var LocationCollection = Backbone.Collection.extend({
   model: Location,
   url: "/locations.json",
   sortNear: function(current) {
-    // Create an anonymous function to sort near.
+    // Set this collection's comparator before sorting.
     this.comparator = function(location) {
       return location.getDistanceFrom(current);
     }

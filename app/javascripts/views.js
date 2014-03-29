@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -12,9 +11,6 @@ var LocationCollection = models.LocationCollection;
 var Locations = new LocationCollection();
 
 var ResultsView = Backbone.View.extend({
-  initialize: function() {
-    var that = this;
-  },
   setResult: function(result) {
     this.location = result.name;
     this.coords = [result.latitude, result.longitude];
@@ -28,14 +24,17 @@ var ResultsView = Backbone.View.extend({
       });
     }
     else {
-
       this.render();
     }
   },
   render: function() {
     this.collection.sortNear(this.coords);
     React.renderComponent(
-      <ResultList address={this.location} coords={this.coords} locations={this.collection} />, this.el
+      new ResultList({
+        address: this.location,
+        coords: this.coords,
+        locations: this.collection
+      }), this.el
     );
 
     return this;
@@ -49,7 +48,9 @@ var SearchView = Backbone.View.extend({
   },
   render: function() {
     React.renderComponent(
-      <SearchForm handleLocation={this.parent.handleLocation.bind(this.parent)} />, this.el
+      new SearchForm({
+        handleLocation: this.parent.handleLocation.bind(this.parent)
+      }), this.el
     );
 
     return this;
