@@ -14,20 +14,26 @@ var Locations = new LocationCollection();
 var ResultsView = Backbone.View.extend({
   initialize: function() {
     var that = this;
-    Locations.fetch({
-      success: function(collection) {
-        this.collection = collection;
-      }.bind(this)
-    });
   },
   setResult: function(result) {
     this.location = result.name;
-    this.latitude = result.latitude;
-    this.longitude = result.longitude;
+    this.coords = [result.latitude, result.longitude];
 
-    this.render();
+    if (typeof this.collection === 'undefined') {
+      Locations.fetch({
+        success: function(collection) {
+          this.collection = collection;
+          this.render();
+        }.bind(this)
+      });
+    }
+    else {
+      this.render();
+    }
   },
   render: function() {
+    console.log(this);
+    this.collection.sortNear(this.coords);
     React.renderComponent(
       <ResultList address={this.location} locations={this.collection} />, this.el
     );

@@ -109,7 +109,8 @@ var Location = Backbone.Model.extend({
       this.attributes.geometry[0] + "&hl=en";
   },
   getDistanceFrom: function(coords) {
-    return distance(coords, this.geometry);
+    var geometry = [this.attributes.geometry[1], this.attributes.geometry[0]]
+    return distance(coords, geometry);
   }
 });
 
@@ -122,7 +123,7 @@ var LocationCollection = Backbone.Collection.extend({
       return location.getDistanceFrom(current);
     }
 
-    return this.sort(comparator);
+    return this.sort();
   }
 });
 
