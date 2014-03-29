@@ -16,7 +16,12 @@ var ResultsView = Backbone.View.extend({
     this.coords = [result.latitude, result.longitude];
 
     if (typeof this.component === 'undefined') {
-      this.render();
+      Locations.fetch({
+        success: function(collection) {
+          this.collection = collection;
+          this.render();
+        }.bind(this)
+      });
     }
     else {
       this.updateComponent();
@@ -30,19 +35,13 @@ var ResultsView = Backbone.View.extend({
     });
   },
   render: function() {
-    Locations.fetch({
-      success: function(collection) {
-        this.collection = collection;
-
-        this.component = React.renderComponent(
-          new ResultList({
-            address: this.location,
-            coords: this.coords,
-            locations: this.collection
-          }), this.el
-        );
-      }.bind(this)
-    });
+    this.component = React.renderComponent(
+      new ResultList({
+        address: this.location,
+        coords: this.coords,
+        locations: this.collection
+      }), this.el
+    );
 
     return this;
   }

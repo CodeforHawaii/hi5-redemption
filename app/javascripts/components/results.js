@@ -20,18 +20,21 @@ var ResultRow = React.createClass({
 
 var ResultList = React.createClass({
   render: function() {
-    var rows = [];
     var coords = this.props.coords;
-    
     this.props.locations.sortNear(this.props.coords);
-    this.props.locations.forEach(function(location) {
-      rows.push(<ResultRow location={location} coords={coords} key={location.id} />);
-    });
-
+    
     return (
       <div>
       <h2>Results near "{this.props.address}"</h2>
-      <ul className="list-unstyled">{rows}</ul>
+      <ul className="list-unstyled">
+        {this.props.locations.map(function(location) {
+          return new ResultRow({
+            location: location,
+            coords: coords,
+            key: location.id
+          });
+        })}
+      </ul>
       </div>
     );
   }
