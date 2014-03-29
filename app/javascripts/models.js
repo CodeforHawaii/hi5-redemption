@@ -25,7 +25,7 @@ var parseTime = function(time) {
 var distance = function(p1, p2) {
   // Implementation of the haversine formula.
   // http://www.movable-type.co.uk/scripts/latlong.html
-  var R = 6371;
+  var R = 3959; // Miles, not km.
 
   var d1 = (p2[0] - p1[0]).toRad();
   var d2 = (p2[1] - p1[1]).toRad();

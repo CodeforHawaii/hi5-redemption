@@ -28,14 +28,14 @@ var ResultsView = Backbone.View.extend({
       });
     }
     else {
+
       this.render();
     }
   },
   render: function() {
-    console.log(this);
     this.collection.sortNear(this.coords);
     React.renderComponent(
-      <ResultList address={this.location} locations={this.collection} />, this.el
+      <ResultList address={this.location} coords={this.coords} locations={this.collection} />, this.el
     );
 
     return this;
