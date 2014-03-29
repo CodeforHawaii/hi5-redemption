@@ -15,27 +15,34 @@ var ResultsView = Backbone.View.extend({
     this.location = result.name;
     this.coords = [result.latitude, result.longitude];
 
-    if (typeof this.collection === 'undefined') {
-      Locations.fetch({
-        success: function(collection) {
-          this.collection = collection;
-          this.render();
-        }.bind(this)
-      });
-    }
-    else {
+    if (typeof this.component === 'undefined') {
       this.render();
     }
+    else {
+      this.updateComponent();
+    }
+  },
+  updateComponent: function() {
+    this.component.setProps({
+      address: this.location,
+      coords: this.coords,
+      locations: this.collection
+    });
   },
   render: function() {
-    this.collection.sortNear(this.coords);
-    React.renderComponent(
-      new ResultList({
-        address: this.location,
-        coords: this.coords,
-        locations: this.collection
-      }), this.el
-    );
+    Locations.fetch({
+      success: function(collection) {
+        this.collection = collection;
+
+        this.component = React.renderComponent(
+          new ResultList({
+            address: this.location,
+            coords: this.coords,
+            locations: this.collection
+          }), this.el
+        );
+      }.bind(this)
+    });
 
     return this;
   }

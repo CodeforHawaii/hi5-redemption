@@ -22,7 +22,8 @@ var ResultList = React.createClass({
   render: function() {
     var rows = [];
     var coords = this.props.coords;
-
+    
+    this.props.locations.sortNear(this.props.coords);
     this.props.locations.forEach(function(location) {
       rows.push(<ResultRow location={location} coords={coords} key={location.id} />);
     });
