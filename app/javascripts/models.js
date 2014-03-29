@@ -22,6 +22,24 @@ var parseTime = function(time) {
   return hour + ":" + minutes + " " + ampm;
 }
 
+var distance = function(p1, p2) {
+  // Implementation of the haversine formula.
+  // http://www.movable-type.co.uk/scripts/latlong.html
+  var R = 6371;
+
+  var d1 = (p2[0] - p1[0]).toRad();
+  var d2 = (p2[1] - p1[1]).toRad();
+  var lat1 = p1[0].toRad();
+  var lat2 = p2[0].toRad();
+
+  var a = Math.sin(d1 / 2) * Math.sin(d1 / 2) +
+          Math.sin(d2 / 2) * Math.sin(d2 / 2) * Math.cos(lat1) * Math.cos(lat2);
+
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+  return R * c;
+};
+
 var Location = Backbone.Model.extend({
   initialize: function() {
     this.id = this.attributes.OBJECTID;
