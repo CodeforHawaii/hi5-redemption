@@ -70,7 +70,7 @@ var PlacesSearch = React.createClass({
       radius: 200,
       componentRestrictions: {country: 'us'}
     });
-
+{}
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
 
