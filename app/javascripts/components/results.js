@@ -63,10 +63,11 @@ var ResultView = React.createClass({
   },
   render: function() {
     if (this.state.item !== null) {
-      console.log(this.state.item);
       return (
         <div>
           <h3>{this.state.item.fullName()}</h3>
+          <p>{this.state.item.hours()}</p>
+          <p>{this.state.item.description}</p>
         </div>
       );
     }

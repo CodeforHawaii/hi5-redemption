@@ -53,11 +53,11 @@ var Location = Backbone.Model.extend({
     return str;
   },
   hasWeekend: function() {
-    return this.attributes.WEEKEND !== " ";
+    return this.attributes.WEEKEND.length > 2;
   },
   hours: function() {
     var str = "Open " + this.attributes.DAYS + " from " + this.attributes.HOURS;
-    if (this.hasWeekend) {
+    if (this.hasWeekend()) {
       str += ", " + this.attributes.WEEKEND + " from " + this.attributes.WEEKEND_HO;
     }
 
