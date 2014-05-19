@@ -31,8 +31,7 @@ var ResultRow = React.createClass({
 
 var ResultMap = React.createClass({
   componentWillUpdate: function(current, nextState) {
-    var coords = nextState.center.attributes.geometry;
-    var center = new google.maps.LatLng(coords[1], coords[0]);
+    var center = new google.maps.LatLng(nextState.center[1], nextState.center[0]);
     this.map.setCenter(center);
   },
   componentDidMount: function() {
@@ -44,14 +43,43 @@ var ResultMap = React.createClass({
     this.map = new google.maps.Map(document.getElementById("resultMap"), mapOptions);
   },
   render: function() {
-    return (<div id="resultMap"></div>);
+    return <div id='resultMap'></div>;
+  }
+});
+
+var ResultView = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState) {
+    if (!nextState.item) {
+      return false;
+    }
+    else if (this.state.item === null) {
+      return true;
+    }
+
+    return this.state.item.id !== nextState.item.id;
+  },
+  getInitialState: function() {
+    return {item: null};
+  },
+  render: function() {
+    if (this.state.item !== null) {
+      console.log(this.state.item);
+      return (
+        <div>
+          <h3>{this.state.item.fullName()}</h3>
+        </div>
+      );
+    }
+
+    return <div></div>
   }
 });
 
 var ResultList = React.createClass({
   selectItem: function (item) {
-    // Need to tell map to recenter.
-    this.map.setState({center: item});
+    // Update component views
+    this.map.setState({center: item.attributes.geometry});
+    this.resultView.setState({item: item});
   },
   render: function() {
     var coords = this.props.coords;
@@ -59,6 +87,7 @@ var ResultList = React.createClass({
 
     // Reference map so we can recenter it.
     this.map = new ResultMap({mapCenter: coords});
+    this.resultView = new ResultView();
 
     this.props.locations.sortNear(coords);
 
@@ -77,6 +106,7 @@ var ResultList = React.createClass({
         </ul>
       </div>
       <div className="col-sm-8">
+        {this.resultView}
         {this.map}
       </div>
       </div>
