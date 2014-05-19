@@ -70,7 +70,7 @@ var Location = Backbone.Model.extend({
       return "Closed today"
     }
 
-    return "Open today from " + this.openTime(date) + " to " + this.closeTime(date);
+    return "Open from " + this.openTime(date) + " to " + this.closeTime(date);
   },
   openTime: function(date) {
     var hours = this.attributes.hours;

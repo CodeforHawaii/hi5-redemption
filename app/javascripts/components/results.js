@@ -15,8 +15,8 @@ var ResultRow = React.createClass({
 
     return (
       <li className='list-group-item row' onClick={this.handleClick}>
+        <h3 className='col-xs-12'>{location.fullName()}</h3>
         <div className='col-xs-8'>
-          <h3>{location.fullName()}</h3>
           <p><strong>{location.todaysHours()}</strong></p>
           <p>{location.attributes.ADDRESS}</p>
           <p>{location.getDistanceFrom(coords).toFixed(1)} miles away</p>
@@ -30,13 +30,18 @@ var ResultRow = React.createClass({
 });
 
 var ResultMap = React.createClass({
+  componentWillUpdate: function(current, nextState) {
+    var coords = nextState.center.attributes.geometry;
+    var center = new google.maps.LatLng(coords[1], coords[0]);
+    this.map.setCenter(center);
+  },
   componentDidMount: function() {
     var mapOptions = {
       center: new google.maps.LatLng(this.props.mapCenter[0], this.props.mapCenter[1]),
       zoom: 16
     };
 
-    var map = new google.maps.Map(document.getElementById("resultMap"), mapOptions);
+    this.map = new google.maps.Map(document.getElementById("resultMap"), mapOptions);
   },
   render: function() {
     return (<div id="resultMap"></div>);
@@ -45,13 +50,17 @@ var ResultMap = React.createClass({
 
 var ResultList = React.createClass({
   selectItem: function (item) {
-    console.log(item);
+    // Need to tell map to recenter.
+    this.map.setState({center: item});
   },
   render: function() {
     var coords = this.props.coords;
-    this.props.locations.sortNear(coords);
+    var list = this; // Reference for this when handling clicks.
 
-    var list = this;
+    // Reference map so we can recenter it.
+    this.map = new ResultMap({mapCenter: coords});
+
+    this.props.locations.sortNear(coords);
 
     return (
       <div className="row">
@@ -68,7 +77,7 @@ var ResultList = React.createClass({
         </ul>
       </div>
       <div className="col-sm-8">
-        <ResultMap mapCenter={coords}/>
+        {this.map}
       </div>
       </div>
     );
