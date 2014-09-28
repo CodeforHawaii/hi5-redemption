@@ -55,7 +55,9 @@ var PlacesSearch = React.createClass({
   },
   render: function() {
     return (
-      <input id="places-search" className="form-control" placeholder="Type a location" />
+      <div className="form-control-wrapper">
+        <input id="places-search" className="form-control" placeholder="Type a location" />
+      </div>
     );
   },
   componentDidMount: function() {
@@ -65,12 +67,12 @@ var PlacesSearch = React.createClass({
       new google.maps.LatLng(22.2711981, -156.8005013)
     );
 
-    var autocomplete = new google.maps.places.Autocomplete(this.getDOMNode(), {
+    var autocomplete = new google.maps.places.Autocomplete(this.getDOMNode().firstChild, {
       bounds: defaultBounds,
       radius: 200,
       componentRestrictions: {country: 'us'}
     });
-    
+
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
 

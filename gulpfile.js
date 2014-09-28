@@ -1,12 +1,12 @@
+'use strict';
+
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var less = require('gulp-less');
 var flatten = require('gulp-flatten');
 var jade = require('gulp-jade');
 var livereload = require('gulp-livereload');
 var browserify = require('gulp-browserify');
-var path = require('path');
-var server = require('./server.js')
+var server = require('./server.js');
 
 gulp.task('dev-server', function() {
   gulp.src('locations.json').pipe(gulp.dest('dist'));
@@ -15,6 +15,10 @@ gulp.task('dev-server', function() {
 
 gulp.task('bower', function() {
   gulp.src('app/bower_components/**/*.min.css')
+      .pipe(flatten())
+      .pipe(gulp.dest('dist/css'));
+
+  gulp.src('app/bower_components/bootstrap-material-design/css-compiled/*')
       .pipe(flatten())
       .pipe(gulp.dest('dist/css'));
 
@@ -52,9 +56,7 @@ gulp.task('templates', function() {
 
 gulp.task('watch', function() {
   gulp.watch('app/stylesheets/**', ['less']);
-
   gulp.watch('app/javascripts/**', ['js']);
-
   gulp.watch('app/views/**', ['templates']);
 });
 
