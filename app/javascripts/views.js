@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -75,4 +77,4 @@ var AppController = Backbone.View.extend({
 
 module.exports = {
   AppController: AppController
-}
+};
