@@ -2,7 +2,6 @@
 
 var $ = require('jquery');
 var AppController = require('./views').AppController;
-var Router = require('./router');
 
 /** Converts numeric degrees to radians */
 if (typeof(Number.prototype.toRad) === 'undefined') {
@@ -13,5 +12,4 @@ if (typeof(Number.prototype.toRad) === 'undefined') {
 
 $(function() {
   new AppController({el: $('body')});
-  new Router();
 });

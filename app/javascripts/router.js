@@ -2,15 +2,15 @@
 
 var Backbone = require('backbone');
 
-var Router = function() {
-  var router = Backbone.Router.extend({
-    routes: {
-      '*actions': 'defaultRoute'
-    }
-  });
+var Router = Backbone.Router.extend({
+  routes: {
+    'search?near=:lat,:lng': 'search',
+    '*actions': 'defaultRoute'
+  }
+});
 
-  Backbone.history.start();
-  return router;
+Router.prototype.buildSearchUrl = function(result) {
+  return 'search?near=' + result.latitude + ',' + result.longitude;
 };
 
 module.exports = Router;

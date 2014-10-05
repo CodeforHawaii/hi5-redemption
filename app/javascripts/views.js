@@ -3,6 +3,7 @@
 var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
+var Router = require('./router');
 var SearchForm = require('./components/search_form');
 var ResultList = require('./components/results');
 var models = require('./models');
@@ -67,11 +68,25 @@ var SearchView = Backbone.View.extend({
 
 var AppController = Backbone.View.extend({
   handleLocation: function(result) {
+    var searchUrl = this.router.buildSearchUrl(result);
     this.resultsView.setResult(result);
+    this.router.navigate(searchUrl);
   },
-  initialize: function() {
+  initialize: function(options) {
     this.searchView = new SearchView({el: $('#search'), parent: this});
-    this.resultsView = new ResultsView({el: $('#results')});
+    this.resultsView = new ResultsView({el: $('#results'), router: options.router});
+
+    var controller = this;
+    this.router = new Router();
+    this.router.on('route:search', function(lat, lng) {
+      console.log('yo');
+      controller.handleLocation({
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lng)
+      });
+    });
+
+    Backbone.history.start();
   }
 });
 
