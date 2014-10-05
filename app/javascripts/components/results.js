@@ -30,11 +30,9 @@ var ResultRow = React.createClass({
 });
 
 var ResultMap = React.createClass({
-  componentWillUpdate: function() {
-    if (typeof this.props.mapCenter !== 'undefined') {
-      var center = new google.maps.LatLng(this.props.mapCenter[1], this.props.mapCenter[0]);
-      this.map.setCenter(center);
-    }
+  componentWillUpdate: function(current, nextState) {
+    var center = new google.maps.LatLng(nextState.center[1], nextState.center[0]);
+    this.map.setCenter(center);
   },
   componentDidMount: function() {
     var mapOptions = {
@@ -81,8 +79,8 @@ var ResultView = React.createClass({
 var ResultList = React.createClass({
   selectItem: function (item) {
     // Update component views
-    this.map.setProps({mapCenter: item.attributes.geometry});
-    this.resultView.setState({item: item});
+    this.refs.map.setState({center: item.attributes.geometry});
+    this.refs.results.setState({item: item});
   },
   componentDidMount: function() {
     // Check if we have a selected item and set the state appropriately.
@@ -101,8 +99,8 @@ var ResultList = React.createClass({
     var list = this; // Reference for this when handling clicks.
 
     // Reference map so we can recenter it.
-    this.map = new ResultMap({mapCenter: coords});
-    this.resultView = new ResultView();
+    this.map = new ResultMap({mapCenter: coords, ref: "map"});
+    this.resultView = new ResultView({ref: "results"});
 
     this.props.locations.sortNear(coords);
 
