@@ -3,7 +3,7 @@ var React = require('react');
 
 var ResultRow = React.createClass({
   handleClick: function () {
-    this.props.clickHandler(this.props.location);
+    window.location = '#location/' + this.props.location.id;
   },
   render: function() {
     var location = this.props.location;
@@ -30,9 +30,11 @@ var ResultRow = React.createClass({
 });
 
 var ResultMap = React.createClass({
-  componentWillUpdate: function(current, nextState) {
-    var center = new google.maps.LatLng(nextState.center[1], nextState.center[0]);
-    this.map.setCenter(center);
+  componentWillUpdate: function() {
+    if (typeof this.props.mapCenter !== 'undefined') {
+      var center = new google.maps.LatLng(this.props.mapCenter[1], this.props.mapCenter[0]);
+      this.map.setCenter(center);
+    }
   },
   componentDidMount: function() {
     var mapOptions = {
@@ -79,8 +81,20 @@ var ResultView = React.createClass({
 var ResultList = React.createClass({
   selectItem: function (item) {
     // Update component views
-    this.map.setState({center: item.attributes.geometry});
+    this.map.setProps({mapCenter: item.attributes.geometry});
     this.resultView.setState({item: item});
+  },
+  componentDidMount: function() {
+    // Check if we have a selected item and set the state appropriately.
+    if (typeof this.props.selectedItem !== 'undefined') {
+      this.selectItem(this.props.selectedItem);
+    }
+  },
+  componentDidUpdate: function() {
+    // Check if we have a selected item and set the state appropriately.
+    if (typeof this.props.selectedItem !== 'undefined') {
+      this.selectItem(this.props.selectedItem);
+    }
   },
   render: function() {
     var coords = this.props.coords;
@@ -100,8 +114,7 @@ var ResultList = React.createClass({
             return new ResultRow({
               location: location,
               coords: coords,
-              key: location.id,
-              clickHandler: list.selectItem
+              key: location.id
             });
           })}
         </ul>

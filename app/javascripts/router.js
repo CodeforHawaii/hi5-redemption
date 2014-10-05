@@ -5,6 +5,7 @@ var Backbone = require('backbone');
 var Router = Backbone.Router.extend({
   routes: {
     'search?near=:lat,:lng': 'search',
+    'location/:id': 'location',
     '*actions': 'defaultRoute'
   }
 });

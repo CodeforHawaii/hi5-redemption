@@ -30,6 +30,7 @@ class Loader
 
     processLocation: (location) ->
         attributes = location.attributes
+        attributes.id = attributes.OBJECTID;
         attributes.geometry = [location.geometry.x, location.geometry.y]
         attributes.hours = @hoursProcessor.processHours attributes.DAYS, attributes.HOURS
         if attributes.WEEKEND != " "
@@ -45,7 +46,7 @@ loadIntoConsole = (url) ->
 
 # Main method for loading data.
 main = ->
-    loadIntoConsole QUERY_URL, program.clear
+    loadIntoConsole QUERY_URL
 
 if require.main == module
     main()

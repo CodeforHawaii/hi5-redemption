@@ -30,19 +30,44 @@ var ResultsView = Backbone.View.extend({
       this.updateComponent();
     }
   },
-  updateComponent: function() {
+  setItem: function(id) {
+    if (typeof this.component === 'undefined') {
+      Locations.fetch({
+        success: function(collection) {
+          var recyclingCenter = collection.get(id);
+
+          // Set the location to be based on the recycling center.
+          this.location = recyclingCenter.NAME;
+          this.coords = [
+            recyclingCenter.attributes.geometry[1],
+            recyclingCenter.attributes.geometry[0]
+          ];
+
+          this.collection = collection;
+          this.render(recyclingCenter);
+        }.bind(this)
+      });
+    }
+    else {
+      var recyclingCenter = this.collection.get(id);
+      this.updateComponent(recyclingCenter);
+    }
+  },
+  updateComponent: function(selectedCenter) {
     this.component.setProps({
       address: this.location,
       coords: this.coords,
-      locations: this.collection
+      locations: this.collection,
+      selectedItem: selectedCenter
     });
   },
-  render: function() {
+  render: function(selectedCenter) {
     this.component = React.renderComponent(
       new ResultList({
         address: this.location,
         coords: this.coords,
-        locations: this.collection
+        locations: this.collection,
+        selectedItem: selectedCenter
       }), this.el
     );
 
@@ -69,8 +94,7 @@ var SearchView = Backbone.View.extend({
 var AppController = Backbone.View.extend({
   handleLocation: function(result) {
     var searchUrl = this.router.buildSearchUrl(result);
-    this.resultsView.setResult(result);
-    this.router.navigate(searchUrl);
+    this.router.navigate(searchUrl, {trigger: true});
   },
   initialize: function(options) {
     this.searchView = new SearchView({el: $('#search'), parent: this});
@@ -79,11 +103,14 @@ var AppController = Backbone.View.extend({
     var controller = this;
     this.router = new Router();
     this.router.on('route:search', function(lat, lng) {
-      console.log('yo');
-      controller.handleLocation({
+      controller.resultsView.setResult({
         latitude: parseFloat(lat),
         longitude: parseFloat(lng)
       });
+    });
+
+    this.router.on('route:location', function(id) {
+      controller.resultsView.setItem(id);
     });
 
     Backbone.history.start();
