@@ -14,15 +14,15 @@ gulp.task('dev-server', function() {
 });
 
 gulp.task('bower', function() {
-  gulp.src('app/bower_components/**/*.min.css')
+  gulp.src('bower_components/**/*.min.css')
       .pipe(flatten())
       .pipe(gulp.dest('dist/css'));
 
-  gulp.src('app/bower_components/bootstrap-material-design/css-compiled/*')
+  gulp.src('bower_components/bootstrap-material-design/dist/css/*')
       .pipe(flatten())
       .pipe(gulp.dest('dist/css'));
 
-  gulp.src('app/bower_components/bootstrap/dist/fonts/*')
+  gulp.src('bower_components/bootstrap/dist/fonts/*')
       .pipe(gulp.dest('dist/fonts'));
 });
 

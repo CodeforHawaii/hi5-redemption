@@ -3,4 +3,5 @@ node_modules
 builtAssets
 *.log
 app/bower_components
+bower_components
 dist
