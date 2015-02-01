@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var React = require('react');
 
 var ResultRow = React.createClass({
@@ -45,6 +44,10 @@ var ResultMap = React.createClass({
         this.marker.setPosition(center);
       }
     }
+
+    if (nextState.mapCenter) {
+      this.props.mapCenter = nextState.mapCenter;
+    }
   },
   componentDidMount: function() {
     var mapOptions = {
@@ -53,6 +56,10 @@ var ResultMap = React.createClass({
     };
 
     this.map = new google.maps.Map(document.getElementById("resultMap"), mapOptions);
+  },
+  componentWillUnmount: function() {
+    this.map = null;
+    this.marker = null;
   },
   render: function() {
     return <div id='resultMap'></div>;
@@ -99,8 +106,14 @@ var ResultList = React.createClass({
     var list = this; // Reference for this when handling clicks.
 
     // Reference map so we can recenter it.
-    this.map = new ResultMap({mapCenter: coords});
-    this.resultView = new ResultView();
+    if (!this.map) {
+      this.map = new ResultMap({mapCenter: coords});
+    }
+    else {
+      this.map.setState({mapCenter: coords});
+    }
+
+    this.resultView = this.resultView || new ResultView();
 
     this.props.locations.sortNear(coords);
 
