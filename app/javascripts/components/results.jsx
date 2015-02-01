@@ -31,8 +31,20 @@ var ResultRow = React.createClass({
 
 var ResultMap = React.createClass({
   componentWillUpdate: function(current, nextState) {
-    var center = new google.maps.LatLng(nextState.center[1], nextState.center[0]);
-    this.map.setCenter(center);
+    if (nextState.center) {
+      var center = new google.maps.LatLng(nextState.center[1], nextState.center[0]);
+      this.map.setCenter(center);
+
+      if (!this.marker) {
+        this.marker = new google.maps.Marker({
+          position: center,
+          map: this.map
+        });
+      }
+      else {
+        this.marker.setPosition(center);
+      }
+    }
   },
   componentDidMount: function() {
     var mapOptions = {

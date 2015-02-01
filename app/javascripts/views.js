@@ -1,8 +1,8 @@
 var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
-var SearchForm = require('./components/search_form');
-var ResultList = require('./components/results');
+var SearchForm = require('./components/search_form.jsx');
+var ResultList = require('./components/results.jsx');
 var models = require('./models');
 
 Backbone.$ = $;
