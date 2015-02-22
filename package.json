@@ -2,7 +2,9 @@
   "name": "hi5-redemption",
   "version": "0.9.0",
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "backbone": "^1.1.2"
+  },
   "devDependencies": {
     "browserify": "^3.46.1",
     "coffee-script": "^1.7.1",
