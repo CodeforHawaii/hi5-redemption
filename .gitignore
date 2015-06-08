@@ -1,7 +1,6 @@
 settings/*.json
 node_modules
 jspm_packages
-builtAssets
+build
 *.log
-app/bower_components
 dist

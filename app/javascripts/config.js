@@ -4,7 +4,8 @@ System.config({
   "babelOptions": {
     "optional": [
       "runtime"
-    ]
+    ],
+    "blacklist": []
   },
   "paths": {
     "*": "*.js",
@@ -15,7 +16,13 @@ System.config({
 
 System.config({
   "map": {
+    "babel": "npm:babel-core@5.5.4",
+    "babel-runtime": "npm:babel-runtime@5.5.4",
+    "backbone": "npm:backbone@1.2.1",
+    "core-js": "npm:core-js@0.9.14",
+    "jquery": "github:components/jquery@2.1.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
+    "material-ui": "npm:material-ui@0.8.0",
     "react": "npm:react@0.14.0-alpha3",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
@@ -85,6 +92,13 @@ System.config({
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:babel-runtime@5.5.4": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:backbone@1.2.1": {
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "underscore": "npm:underscore@1.8.3"
+    },
     "npm:browserify-aes@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.1",
@@ -119,6 +133,9 @@ System.config({
       "ieee754": "npm:ieee754@1.1.5",
       "is-array": "npm:is-array@1.0.1"
     },
+    "npm:classnames@1.2.2": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
     "npm:commander@2.5.1": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -146,6 +163,11 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:constants-browserify@0.0.1": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+    },
+    "npm:core-js@0.9.14": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:core-util-is@1.0.1": {
@@ -265,6 +287,13 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "source-map": "npm:source-map@0.1.31"
     },
+    "npm:material-ui@0.8.0": {
+      "classnames": "npm:classnames@1.2.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "react": "npm:react@0.14.0-alpha3",
+      "react-draggable2": "npm:react-draggable2@0.5.1",
+      "react-tap-event-plugin": "npm:react-tap-event-plugin@0.1.7"
+    },
     "npm:miller-rabin@2.0.1": {
       "bn.js": "npm:bn.js@2.0.5",
       "brorand": "npm:brorand@1.0.5"
@@ -324,10 +353,19 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:react-tap-event-plugin@0.1.7": {
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "react": "npm:react@0.12.2"
+    },
     "npm:react-tools@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commoner": "npm:commoner@0.10.1",
       "jstransform": "npm:jstransform@10.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:react@0.12.2": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "envify": "npm:envify@3.4.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:react@0.14.0-alpha3": {

@@ -12,13 +12,13 @@ var karma = require('karma');
 gulp.task('browser-sync', function() {
   browserSync.init([
     './build/css/*.css',
-    './build/js/**/*.js',
-    './**/*.html'
+    './build/javascripts/**/*.js',
+    './build/**/*.html'
   ],
   {
     notify: false,
     server: {
-      baseDir: ['./']
+      baseDir: ['./build']
     },
     port: 3500,
     browser: [],
@@ -29,18 +29,26 @@ gulp.task('browser-sync', function() {
 
 // Compile JSX
 gulp.task('js', function() {
-  return gulp.src('src/**/*.js')
+  gulp.src('app/javascripts/**/*(*.js|*.jsx)')
     .pipe(plugins.cached('js'))
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('build/js'));
+});
+
+
+// Compile Jade
+gulp.task('jade', function() {
+  return gulp.src('./app/views/index.jade')
+    .pipe(plugins.jade({locals: []}))
+    .pipe(gulp.dest('build/'))
 });
 
 
 // Compile Sass
 gulp.task('sass', function() {
-  return gulp.src('src/sass/main.scss')
-    .pipe(plugin.sourcemaps.init())
+  return gulp.src('app/stylesheets/app.scss')
+    .pipe(plugins.sourcemaps.init())
     .pipe(plugins.sass())
-    .pipe(plugins.sourcemaps.write({includeConcent: false}))
+    .pipe(plugins.sourcemaps.write({includeContent: false}))
     .pipe(plugins.sourcemaps.init({loadMaps: true}))
     .pipe(plugins.autoprefixer({
       browsers: ['last 2 versions']
@@ -52,14 +60,25 @@ gulp.task('sass', function() {
 });
 
 
+// Move JSPM packages to build.
+gulp.task('jspm-packages', function() {
+  return gulp.src('app/jspm_packages/**/*.js')
+    .pipe(gulp.dest('build/jspm_packages'));
+});
+
+
 // Serve
-gulp.task('serve', ['browser-sync', 'js', 'sass'], function() {
-  plugins.watch('src/sass/**/*.scss', {name: 'SASS'}, function() {
+gulp.task('serve', ['browser-sync', 'js', 'sass', 'jade', 'jspm-packages'], function() {
+  plugins.watch('app/stylesheets/**/*.scss', {name: 'SASS'}, function() {
     gulp.start('sass');
   });
 
-  plugins.watch('src/js/**/*.js', {name: 'JS'}, function() {
+  plugins.watch('app/javascripts/**/*.js', {name: 'JS'}, function() {
     gulp.start('js')
+  });
+
+  plugins.watch('app/**/*.jade', {name: 'Jade'}, function() {
+    gulp.start('jade');
   });
 });
 
@@ -67,13 +86,15 @@ gulp.task('serve', ['browser-sync', 'js', 'sass'], function() {
 // Clean
 gulp.task('clean', function() {
   rimraf('build', function(err) {
-    plugins.util.log(err);
+    if (err) {
+      plugins.util.log(err);
+    }
   });
 });
 
 
 // Build (no server)
-gulp.task('build', ['js', 'sass']);
+gulp.task('build', ['js', 'sass', 'jade', 'jspm-packages']);
 
 
 // Default
@@ -120,13 +141,13 @@ gulp.task('html', function() {
 
 // Bundle with jspm
 gulp.task('bundle', ['js'], plugins.shell.task([
-  'jspm bundle-sfx build/js/main.js!jsx dist/js/app.js'
+  'jspm bundle-sfx build/javascripts/main.js!jsx dist/javascripts/app.js'
 ]));
 
 
 // Uglify bundle
 gulp.task('uglify', function() {
-  return gulp.src('./dist/js/app.js')
+  return gulp.src('./dist/javascripts/app.js')
     .pipe(plugins.sourcemaps.init({loadMaps: true}))
     .pipe(plugins.uglify())
     .pipe(plugins.sourcemaps.write('.'))
@@ -141,7 +162,7 @@ gulp.task('dist', function() {
   runSequence(
     'delete-dist',
     'build',
-    ['css', 'html', 'bundle']
+    ['css', 'html', 'bundle'],
     'uglify'
   );
 });

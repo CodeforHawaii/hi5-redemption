@@ -4,9 +4,9 @@ var React = require('react');
 var $ = require('jquery');
 var Backbone = require('backbone');
 var Router = require('./router');
-var SearchForm = require('./components/search_form');
-var ResultList = require('./components/results');
 var models = require('./models');
+var SearchForm = require('./components/search_form.jsx!');
+var ResultList = require('./components/results.jsx!');
 
 Backbone.$ = $;
 
@@ -62,13 +62,13 @@ var ResultsView = Backbone.View.extend({
     });
   },
   render: function(selectedCenter) {
-    this.component = React.renderComponent(
-      new ResultList({
-        address: this.location,
-        coords: this.coords,
-        locations: this.collection,
-        selectedItem: selectedCenter
-      }), this.el
+    this.component = React.render(
+      <ResultList
+        address={this.location}
+        coords={this.coords}
+        locations={this.collection}
+        selectedItem={selectedCenter} />,
+      this.el
     );
 
     return this;
@@ -81,10 +81,9 @@ var SearchView = Backbone.View.extend({
     this.render();
   },
   render: function() {
-    React.renderComponent(
-      new SearchForm({
-        handleLocation: this.parent.handleLocation.bind(this.parent)
-      }), this.el
+    React.render(
+      <SearchForm handleLocation={this.parent.handleLocation.bind(this.parent)} />,
+      this.el
     );
 
     return this;
