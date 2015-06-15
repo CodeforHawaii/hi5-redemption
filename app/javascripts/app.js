@@ -1,18 +1,9 @@
 'use strict';
 
-var $ = require('jquery');
 var AppController = require('./views.js!jsx').AppController;
 
 // Inject the tap event plugin.
 require('react-tap-event-plugin')();
+require('./polyfills.js')();
 
-/** Converts numeric degrees to radians */
-if (typeof(Number.prototype.toRad) === 'undefined') {
-  Number.prototype.toRad = function() {
-    return this * Math.PI / 180;
-  };
-}
-
-$(function() {
-  new AppController({el: $('body')});
-});
+new AppController({el: document.getElementsByTagName('body')[0]});

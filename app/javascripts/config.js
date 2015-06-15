@@ -25,6 +25,7 @@ System.config({
     "material-ui": "npm:material-ui@0.8.0",
     "react": "npm:react@0.14.0-alpha3",
     "react-tap-event-plugin": "npm:react-tap-event-plugin@0.1.7",
+    "reflux": "npm:reflux@0.2.8",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
     },
@@ -236,6 +237,10 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:eventemitter3@0.1.6": {
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
     "npm:glob@4.2.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "events": "github:jspm/nodelibs-events@0.1.1",
@@ -311,6 +316,12 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:native-promise-only@0.7.8-a": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:once@1.3.2": {
       "wrappy": "npm:wrappy@1.0.1"
     },
@@ -369,6 +380,11 @@ System.config({
       "envify": "npm:envify@3.4.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:react@0.13.3": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "envify": "npm:envify@3.4.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:react@0.14.0-alpha3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "envify": "npm:envify@3.4.0",
@@ -394,6 +410,11 @@ System.config({
       "private": "npm:private@0.1.6",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "source-map": "npm:source-map@0.1.43"
+    },
+    "npm:reflux@0.2.8": {
+      "eventemitter3": "npm:eventemitter3@0.1.6",
+      "native-promise-only": "npm:native-promise-only@0.7.8-a",
+      "react": "npm:react@0.13.3"
     },
     "npm:ripemd160@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
