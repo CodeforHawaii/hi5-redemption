@@ -3,6 +3,9 @@
 var $ = require('jquery');
 var AppController = require('./views.js!jsx').AppController;
 
+// Inject the tap event plugin.
+require('react-tap-event-plugin')();
+
 /** Converts numeric degrees to radians */
 if (typeof(Number.prototype.toRad) === 'undefined') {
   Number.prototype.toRad = function() {

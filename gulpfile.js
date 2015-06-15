@@ -39,7 +39,7 @@ gulp.task('js', function() {
 gulp.task('jade', function() {
   return gulp.src('./app/views/index.jade')
     .pipe(plugins.jade({locals: []}))
-    .pipe(gulp.dest('build/'))
+    .pipe(gulp.dest('build/'));
 });
 
 
@@ -68,13 +68,13 @@ gulp.task('jspm-packages', function() {
 
 
 // Serve
-gulp.task('serve', ['browser-sync', 'js', 'sass', 'jade', 'jspm-packages'], function() {
+gulp.task('serve', ['js', 'sass', 'jade', 'jspm-packages', 'browser-sync'], function() {
   plugins.watch('app/stylesheets/**/*.scss', {name: 'SASS'}, function() {
     gulp.start('sass');
   });
 
   plugins.watch('app/javascripts/**/*.js', {name: 'JS'}, function() {
-    gulp.start('js')
+    gulp.start('js');
   });
 
   plugins.watch('app/**/*.jade', {name: 'Jade'}, function() {
