@@ -1,9 +1,7 @@
-'use strict';
+var React = require('react');
 
-var AppController = require('./views.js!jsx').AppController;
+var Main = require('./components/main.jsx!');
 
-// Inject the tap event plugin.
-require('react-tap-event-plugin')();
-require('./polyfills.js')();
+require('./polyfills')();
 
-new AppController({el: document.getElementsByTagName('body')[0]});
+React.render(<Main />, document.body);
